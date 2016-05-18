@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+		<title>试题</title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="css/common.css"/>
+	</head>
+	<body>
+		<header>
+			<div class="alert">
+				<p>试卷未发布，答案不记分</p>
+				<a href="#" class="close-alert" id="closeAlert">关闭</a>
+			</div>
+			<h1>试卷名称</h1>
+		</header>
+		<div class="description">
+			<h2>试卷描述</h2>
+			<p>如果你无法简洁的表达你的想法，那只说明你还不够了解它 -- 阿尔伯特·爱因斯坦</p>
+		</div>
+		<ul class="examination" id="examination">
+			<li data-check-type = 'radio'>
+				<h3>问题描述问题描述问题描述问题描述问题描述问题描述问题描述问题描述问题描述<em>［单选题］</em></h3>
+				<p class="question-item">答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案答案</p>
+				<p class="question-item">答案答案答案答案答案答案答案答案答案</p>
+			</li>
+			<li>
+				<h3>问题描述问题描述问题描述问题描述问题描述问题描述问题描述问题描述问题描述<em>［多选题］</em></h3>
+				<p class="question-item">答案答案答案答案答案答案答案答案答案</p>
+				<p class="question-item">答案答案答案答案答案答案答案答案答案</p>
+				<p class="question-item">答案答案答案答案答案答案答案答案答案</p>
+			</li>
+		</ul>
+		<div class="submit-alert" id="submitAlert">未答完不能交卷</div>
+		<input type="button" id="submit" value="我要交卷" class="submit-btn" />
+	</body>
+	
+	<script src="js/zepto.js" type="text/javascript" charset="utf-8"></script>	
+	<script src="js/touch.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		$(function(){
+			var header = $('header');
+			var reHeight = function(){
+				$('body').css('padding-top',header.height());
+			};
+			
+			//init body paddingTop
+			reHeight();
+			//close top alert
+			$('#closeAlert').on('tap' , function(){
+				event.preventDefault();
+				$(this).parents('.alert').hide();
+				reHeight();
+			});
+			
+			//simulation type = radio
+			$('.examination').on('tap' ,'.question-item' , function(){
+				var p = $(this).parents('li');
+				$(this).toggleClass('selected');
+				if(p.attr('data-check-type') == 'radio'){
+					$(this).siblings('.question-item').removeClass('selected');
+				}
+			});
+			
+			//check empty
+			$('#submit').on('tap' , function(){
+				$('.examination > li').each(function(){
+					if(!$(this).children('.question-item').hasClass('selected')){
+						$(this).children('h3').addClass('alert-empty');
+						$('#submitAlert').show();
+					}else{
+						$(this).children('h3').removeClass('alert-empty');
+						$('#submitAlert').hide();
+					}
+				});
+				
+				if($('.examination > li > h3').hasClass('alert-empty')){
+					$('#submitAlert').show();
+				}
+			});
+		});
+	</script>
+</html>
